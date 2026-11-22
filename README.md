@@ -1,45 +1,66 @@
 # AI Tools Lab Agent (Chrome Extension)
 
-An experimental Chrome Side Panel assistant built to help B.Tech students navigate all 25 exercises in the **AI Tools and Applications** lab manual (Units I–V) without constantly switching windows, retyping prompts, or getting lost in tool UIs.
+![Status](https://img.shields.io/badge/Status-Prototype-orange)
+![Built With AI](https://img.shields.io/badge/Built%20with-AI-blue)
+![Manifest](https://img.shields.io/badge/Chrome-Manifest%20V3-green)
 
-> **Status: Prototype**  
-> I built this as a practical side project because I realized how much time gets wasted hunting for UI options, copying long prompts, and logging observation tables during lab sessions. It isn't a polished commercial product—just a lightweight prototype shared in the hope that it helps other students work faster and smarter.
+An on-screen Chrome Side Panel assistant built to help B.Tech students complete all 25 exercises in the **AI Tools and Applications** lab manual (Units I–V) without constantly switching tabs, retyping long prompts, or getting lost in tool UIs.
+
+> **Note:** This is a lightweight **prototype built using AI** as a practical side project. I made it simply because it saves a lot of time during lab sessions and could be useful for other students. It is not a polished commercial product—just a working tool shared openly.
 
 ---
 
-## Key Features
+<details open>
+<summary><strong>✨ Key Features & How "Snap & Log" Works</strong></summary>
+<br>
 
-- **Experiment & Manual Step Tracker:** Select any of the 25 labs (grouped by Unit I–V) and step through the procedure manually using `◀ Prev` / `Next ▶`. Because you control the active step, the AI doesn't waste time guessing where you are.
-- **1-Click Tool Launcher:** Automatically opens all required web tools for the active lab in new tabs.
-- **1-Click Copy Prompts:** Every preset prompt, sample paragraph, and code snippet from the manual is available as a one-click copy button.
-- **Visually Grounded Guidance (`Analyze Tab`):** Captures your active browser tab and sends it to Gemini (`gemini-2.5-flash`) with strict anti-hallucination rules—it only references buttons, menus, and text literally visible on your screen.
-- **Snap & Log (Data Extraction & Gap Analysis):** Designed specifically for filling out lab observation tables.
+- **Experiment & Manual Step Tracker:** Pick any of the 25 labs (grouped by Unit I–V) and step through procedures manually (`◀ Prev` / `Next ▶`) so the AI never guesses the wrong step.
+- **1-Click Tool Launcher:** Automatically opens all required web tools for the selected lab in new tabs.
+- **1-Click Copy Prompts:** Copy exact lab prompts, sample paragraphs, and code snippets to your clipboard in one click.
+- **Visually Grounded Guidance (`Analyze Tab`):** Captures your active browser tab and uses Gemini (`gemini-2.5-flash`) with strict anti-hallucination rules—it only points to buttons and text literally visible on your screen.
 
-### How `Snap & Log` Works
-Instead of manually transcribing numbers or comparing rows across a crowded screen, clicking **Snap & Log**:
+### 📸 What Does `Snap & Log` Do?
+Instead of manually typing numbers from crowded tables or comparing outputs by hand, clicking **Snap & Log**:
 1. Captures a screenshot of your currently visible browser tab.
-2. Instructs the vision model to read **only** the visible tables, scores, metrics, or outputs (e.g., GPTZero AI %, Grammarly scores, Elicit paper columns, or Google Sheets confusion matrices).
-3. Formats the extracted values into a clean Markdown table ready to copy into your lab record.
-4. Highlights visible differences, patterns, or missing combinations (such as untested *Algorithm + Dataset* research gaps in Elicit) without fabricating any off-screen data.
+2. Reads **only** the visible metrics, scores, or tables (e.g., GPTZero AI %, Grammarly scores, Elicit paper columns, or Google Sheets confusion matrices).
+3. Formats the extracted values into a clean Markdown table ready to paste into your lab record.
+4. Identifies visible differences, patterns, or missing combinations (like untested *Algorithm + Dataset* research gaps in Elicit) without fabricating off-screen data.
 
----
+</details>
 
-## Pros & Cons (Honest Trade-offs)
+<details>
+<summary><strong>⚖️ Pros & Cons (Honest Trade-offs)</strong></summary>
+<br>
 
 ### Pros
-- **Zero-Friction UI:** Docks natively inside Chrome's Side Panel—never covers your buttons or requires dragging a floating window around.
-- **No Backend Required:** Runs 100% client-side. Your Gemini API key is stored locally in `chrome.storage.local` and never leaves your browser except to call Google's API directly.
-- **Strict Visual Grounding:** Prompted to admit when an option isn't visible rather than hallucinating outdated UI instructions.
-- **Fast Setup:** Loads in 30 seconds via Chrome Developer Mode with zero dependencies or build steps.
+- **Zero-Friction UI:** Docks natively in Chrome's Side Panel—never blocks buttons like a floating desktop window.
+- **No Backend Needed:** Runs 100% client-side; your Gemini API key stays in `chrome.storage.local`.
+- **Strict Visual Grounding:** Prompted to admit when an option isn't visible instead of hallucinating outdated menus.
+- **30-Second Setup:** Loads directly via Chrome Developer Mode with no build tools or dependencies.
 
 ### Cons & Limitations
-- **Web-Based Tools Only:** Because this is a Chrome Extension, it can only see and capture browser tabs. It **cannot** see local desktop software (e.g., desktop Microsoft Word, desktop Excel, or local VS Code). You must use the web alternatives (Copilot web, Julius AI, GitHub Copilot web, Google Sheets) for screen analysis to work.
-- **Prototype Quality:** Expect occasional rough edges—there is no automated `.docx` export yet, and long pages require scrolling and re-snapping since `captureVisibleTab` only captures the visible viewport.
-- **Bring Your Own API Key:** Requires a free Gemini API key from Google AI Studio, which is subject to Google's free-tier rate limits.
+- **Web-Based Tools Only:** As a Chrome Extension, it can **only** see browser tabs. It cannot view local desktop apps (desktop Word, Excel, or VS Code)—you must use their web versions (Copilot web, Julius AI, GitHub Copilot web, Google Sheets) for screen analysis.
+- **Prototype Quality:** No automatic `.docx` export yet, and long pages require scrolling and re-snapping since Chrome only captures the visible viewport.
+- **Bring Your Own API Key:** Uses your own free Gemini API key from Google AI Studio (subject to free-tier rate limits).
 
----
+</details>
 
-## Project Structure
+<details>
+<summary><strong>🚀 Installation & Setup</strong></summary>
+<br>
+
+1. Click **Code** → **Download ZIP** and extract the folder on your computer.
+2. Open Google Chrome and navigate to `chrome://extensions/`.
+3. Enable **Developer mode** (toggle in the top-right corner).
+4. Click **Load unpacked** and select the extracted `ai-lab-extension` folder.
+5. Click the puzzle icon in Chrome's toolbar, pin **AI Tools Lab Agent**, and click it to open the Side Panel.
+6. Get a free API key from [Google AI Studio](https://aistudio.google.com) and paste it into the top input box in the Side Panel.
+
+</details>
+
+<details>
+<summary><strong>📁 Project Structure</strong></summary>
+<br>
 
 ```text
 ai-lab-extension/
@@ -49,3 +70,18 @@ ai-lab-extension/
 ├── sidepanel.js      # Core logic, tab capture, Gemini API integration
 ├── steps.js          # Manual step-by-step procedures for all 25 labs
 └── prompts.js        # 1-click copyable prompts & templates for all 25 labs
+```
+
+</details>
+
+<details>
+<summary><strong>🔒 Privacy Note & 🤝 Contributing</strong></summary>
+<br>
+
+### Privacy Note
+This extension collects **zero** telemetry or personal data. Screenshots are only captured when you explicitly click **Analyze Tab** or **Snap & Log**, and are sent directly from your browser to the Google Gemini API using your own key.
+
+### Contributing
+Since this is an AI-assisted prototype, PRs and forks are welcome! Feel free to update `steps.js` or `prompts.js` if your college syllabus differs, or add features like Viva Quiz Mode and `.docx` record export.
+
+</details>
