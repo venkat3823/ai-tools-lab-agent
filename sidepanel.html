@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Lab Agent</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #121212;
+      color: #e5e5e5;
+      margin: 0;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    h3 { margin: 0 0 8px 0; font-size: 15px; color: #60a5fa; }
+    label { font-size: 11px; color: #a1a1aa; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: block; }
+    select, input, button {
+      width: 100%;
+      padding: 7px 8px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #1e1e1e;
+      color: #fff;
+      box-sizing: border-box;
+      font-size: 12.5px;
+    }
+    #stepCard {
+      background: #1e293b;
+      border-left: 3px solid #3b82f6;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 6px;
+    }
+    .step-nav-btn {
+      width: auto;
+      padding: 4px 8px;
+      margin: 0;
+      background: #334155;
+      font-size: 11px;
+    }
+    #stepSelect {
+      margin: 0;
+      padding: 4px 6px;
+      font-size: 11.5px;
+      background: #0f172a;
+      border-color: #475569;
+    }
+    #stepText { color: #f8fafc; font-weight: 500; margin-bottom: 6px; }
+    #stepNote {
+      color: #fde68a;
+      background: #27272a;
+      padding: 5px 7px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      margin-bottom: 5px;
+    }
+    #stepTransition {
+      color: #86efac;
+      font-size: 11.5px;
+    }
+    .btn-row { display: flex; gap: 6px; }
+    button { cursor: pointer; font-weight: 600; border: none; }
+    #launchBtn { background: #2563eb; }
+    #snapBtn { background: #16a34a; }
+    #analyzeBtn { background: #7c3aed; }
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+      white-space: pre-wrap;
+      line-height: 1.45;
+    }
+    .msg-user { color: #93c5fd; margin-bottom: 8px; }
+    .msg-agent { color: #e4e4e7; margin-bottom: 12px; border-bottom: 1px solid #27272a; padding-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <h3>AI Tools Lab Agent</h3>
+
+  <input type="password" id="apiKey" placeholder="Paste Gemini API Key (saved locally)" />
+
+  <label for="labSelect">Experiment:</label>
+  <select id="labSelect"></select>
+
+  <!-- Manual Step Selector Card with Note Down & Next Action -->
+  <div id="stepCard">
+    <div class="step-header">
+      <button id="prevStepBtn" class="step-nav-btn">◀ Prev</button>
+      <select id="stepSelect"></select>
+      <button id="nextStepBtn" class="step-nav-btn">Next ▶</button>
+    </div>
+    <div id="stepText">Loading step...</div>
+    <div id="stepNote">📝 Note Down: ...</div>
+    <div id="stepTransition">➡️ Next Action: ...</div>
+  </div>
+
+  <div class="btn-row">
+    <button id="launchBtn">Launch Tools</button>
+    <button id="snapBtn">Snap & Log</button>
+  </div>
+
+  <!-- 1-Click Copy Prompt List -->
+  <details style="margin-bottom: 8px;">
+    <summary style="cursor: pointer; font-size: 12px; color: #93c5fd; margin-bottom: 6px; font-weight: 600;">
+      1-Click Copy Prompts (Current Experiment)
+    </summary>
+    <div id="promptList" style="max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px;"></div>
+  </details>
+
+  <div id="chat">Select your experiment & step above. Every step shows what to note down and how to move to the next step!</div>
+
+  <input type="text" id="promptInput" placeholder="Ask about this step (or press Enter)..." />
+  <button id="analyzeBtn">Analyze Tab for Current Step</button>
+
+  <script src="prompts.js"></script>
+  <script src="steps.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
